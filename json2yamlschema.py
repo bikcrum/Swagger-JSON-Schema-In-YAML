@@ -1,6 +1,4 @@
-
 import json
-from pprint import pprint
 
 # input file containing json file
 with open('data.json') as f:
@@ -20,23 +18,22 @@ def write(string):
     out.write(string+'\n')
     out.flush()
     
-    
-def parser(json_data,intend):
+def parser(json_data,indent):
     if type(json_data) is dict:
-        write(intend + 'type: object')
-        write(intend + 'properties:')
+        write(indent + 'type: object')
+        if len(json_data) > 0:
+            write(indent + 'properties:')
         for key in json_data:
-            write(intend + '  %s:' % key)
-            parser(json_data[key], intend+'    ')
+            write(indent + '  %s:' % key)
+            parser(json_data[key], indent+'    ')
     elif type(json_data) is list:
-        write(intend + 'type: array')
-        write(intend + 'items:')
+        write(indent + 'type: array')
+        write(indent + 'items:')
         if len(json_data) != 0:
-            parser(json_data[0], intend+'  ')
+            parser(json_data[0], indent+'  ')
         else:
-            write(intend + '  type: object')
+            write(indent + '  type: object')
     else:
-        write(intend + 'type: %s' % gettype(type(json_data).__name__))
-    
+        write(indent + 'type: %s' % gettype(type(json_data).__name__))
 
 parser(json_data,'')
