@@ -26,6 +26,8 @@ def parser(json_data,indent):
         for key in json_data:
             write(indent + '  %s:' % key)
             parser(json_data[key], indent+'    ')
+    elif type(json_data) is None:
+        write(indent + 'type: string')
     elif type(json_data) is list:
         write(indent + 'type: array')
         write(indent + 'items:')
